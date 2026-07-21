@@ -1,0 +1,17 @@
+# Dev environment overrides for frontend
+# Everything not listed here inherits from charts/frontend/values.yaml
+
+image:
+  repository: "940722676295.dkr.ecr.ap-south-2.amazonaws.com/project1-ai-agent-langgraph-frontend" # will be set to real ECR URI once ECR exists (Phase 1/2)
+  tag: "manual-test-1"      # CI will override this with a git-sha tag per build
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: "alb"
+  hosts:
+    - host: khaleeldevops.site   # placeholder — real domain once Route53/ALB exist (Phase 9)
+      paths:
+        - path: /
+          pathType: Prefix

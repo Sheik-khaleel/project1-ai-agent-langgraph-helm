@@ -1,0 +1,21 @@
+# Dev environment overrides for orchestrator
+# Everything not listed here inherits from charts/orchestrator/values.yaml
+
+image:
+  repository: "940722676295.dkr.ecr.ap-south-2.amazonaws.com/project1-ai-agent-langgraph-orchestrator" # will be set to real ECR URI once ECR exists (Phase 1/2)
+  tag: "manual-test-1"      # CI will override this with a git-sha tag per build
+
+replicaCount: 1
+
+env:
+  - name: FETCH_URL
+    value: "https://jsonplaceholder.typicode.com/todos"
+  - name: OPENAI_MODEL
+    value: "gpt-4o-mini"
+  - name: SINK_URL
+    value: "http://sink-api:8000/records"
+  - name: OPENAI_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: orchestrator-secrets
+        key: openai-api-key
