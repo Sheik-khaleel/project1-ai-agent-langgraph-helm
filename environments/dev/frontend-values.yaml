@@ -8,10 +8,15 @@ image:
 replicaCount: 3
 
 ingress:
-  enabled: false
+  enabled: true
   className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /
   hosts:
-  - host: khaleeldevops.site # placeholder — real domain once Route53/ALB exist (Phase 9)
-    paths:
-    - path: /
-      pathType: Prefix
+    - host: dev.khaleeldevops.site
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
