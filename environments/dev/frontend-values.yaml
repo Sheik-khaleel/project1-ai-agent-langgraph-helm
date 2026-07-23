@@ -3,7 +3,7 @@
 
 image:
   repository: "940722676295.dkr.ecr.ap-south-2.amazonaws.com/project1-ai-agent-langgraph-frontend" # will be set to real ECR URI once ECR exists (Phase 1/2)
-  tag: "manual-test-1" # CI will override this with a git-sha tag per build
+  tag: "3064367-11"
 
 replicaCount: 3
 
