@@ -8,14 +8,31 @@ image:
 replicaCount: 1
 
 env:
-  - name: FETCH_URL
-    value: "https://jsonplaceholder.typicode.com/todos"
-  - name: OPENAI_MODEL
-    value: "gpt-4o-mini"
-  - name: SINK_URL
-    value: "http://sink-api:8000/records"
-  - name: OPENAI_API_KEY
-    valueFrom:
-      secretKeyRef:
-        name: orchestrator-secrets
-        key: openai-api-key
+- name: FETCH_URL
+  value: "https://jsonplaceholder.typicode.com/todos"
+- name: OPENAI_MODEL
+  value: "gpt-4o-mini"
+- name: SINK_URL
+  value: "http://sink-api:8000/records"
+- name: OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: orchestrator-secrets
+      key: openai-api-key
+
+ingress:
+  enabled: true
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-south-2:940722676295:certificate/baeb4eca-9977-4323-96d9-27bc360d6101"
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+  hosts:
+  - host: orchestrator-dev.khaleeldevops.site
+    paths:
+    - path: /
+      pathType: Prefix
+  tls: []
